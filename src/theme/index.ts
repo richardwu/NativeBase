@@ -18,6 +18,7 @@ const theme = {
   ...base,
   components,
   config,
+  fixedBreakpoints: false,
 };
 
 export type ITheme = typeof theme;

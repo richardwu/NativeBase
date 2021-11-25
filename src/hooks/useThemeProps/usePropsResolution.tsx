@@ -2,7 +2,7 @@ import get from 'lodash.get';
 import omit from 'lodash.omit';
 import isNil from 'lodash.isnil';
 import merge from 'lodash.merge';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, Dimensions } from 'react-native';
 import { useNativeBase } from '../useNativeBase';
 import { usePlatformProps } from '../usePlatformProps';
 import { useColorModeProps } from '../useColorModeProps';
@@ -222,6 +222,8 @@ const propTranslator = ({
   return translatedProps;
 };
 
+const {width: fixedWidth} = Dimensions.get('window');
+
 /**
  * @summary Combines provided porps with component's theme props and resloves them.
  * @description NOTE: Avoid passing JSX and functions.
@@ -246,7 +248,7 @@ export function usePropsResolution(
 
   const componentTheme = get(theme, `components.${component}`, {});
   const notComponentTheme = omit(theme, ['components']);
-  const windowWidth = useWindowDimensions()?.width;
+  const windowWidth = get(theme, "fixedBreakpoints") ? fixedWidth : useWindowDimensions()?.width;
 
   const currentBreakpoint = React.useMemo(
     () => getClosestBreakpoint(theme.breakpoints, windowWidth),
