@@ -17,7 +17,7 @@ import {
   NativeBaseConfigProvider,
 } from './NativeBaseContext';
 import { useToast } from '../components/composites/Toast';
-import { Platform, useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions, Dimensions } from 'react-native';
 import {
   getClosestBreakpoint,
   platformSpecificSpaceUnits,
@@ -64,7 +64,7 @@ const NativeBaseProvider = (props: NativeBaseProviderProps) => {
     return theme;
   }, [config.enableRem, theme]);
 
-  const windowWidth = useWindowDimensions()?.width;
+  const windowWidth = newTheme.disableDynamicWidth ? Dimensions.get('window').width : useWindowDimensions()?.width;
 
   const currentBreakpoint = React.useMemo(
     () => getClosestBreakpoint(newTheme.breakpoints, windowWidth),
